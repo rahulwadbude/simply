@@ -43,7 +43,15 @@ public class StringProblems {
      //   finDuplicate2();
       //  paladrom();
       //  checkEpamQ1();
-
+// testString();
+        // testString2();
+        // testString3();
+       // testString4();
+        // testString5();
+        // testString6();
+        //testString7();
+       // testString8();
+        testString8Stream();
 
     }
     int count = 10;
@@ -459,7 +467,97 @@ System.out.print(collect);
 
 }
 
+//Find all strings starting with "A".
+    public static void testString() {
+        String[] sbc = {"Arnab", "Bat", "Aakash", "Rahul", "Ankit"};
 
+        Set<String> collect = Arrays.stream(sbc).filter(word -> word.charAt(0) == 'A').collect(Collectors.toSet());
+        System.out.print(collect);
+    }
+
+    //Count strings whose length is greater than 5.
+    public static void testString2() {
+        String[] sbc = {"Arnab1", "Bat", "Aakash1", "Rahul1", "Ankit"};
+
+        Set<String> collect = Arrays.stream(sbc).filter(word -> word.length() > 5).collect(Collectors.toSet());
+        System.out.print(collect);
+
+    }
+
+    //Sort a list of strings alphabetically.
+    public static void testString3() {
+        String[] sbc = {"Arnab", "Bat", "Aakash", "Rahul", "Ankit"};
+
+        Arrays.sort(sbc);
+        for (String ss : sbc)
+            System.out.print(ss + ",");
+    }
+
+    //Find the longest string in a list.
+    public static void testString4() {
+        String[] sbc = {"Arnab", "Bat", "Aakash", "Rahul", "Ankit"};
+
+        Optional<String> max = Arrays.stream(sbc).max(Comparator.comparingInt(String::length));
+        System.out.print(max.get());
+    }
+
+    //Group strings by their length
+    public static void testString5() {
+        String[] sbc = {"Arnab", "Bat", "cat", "Aakash", "Rahul", "Ankit"};
+
+        Map<Integer, List<String>> collect = Arrays.stream(sbc).collect(Collectors.groupingBy(String::length));
+        System.out.print(collect);
+    }
+
+    //Find all anagrams from a list of strings.
+    public static void testString6() {
+        String[] sbc = {"Arnab", "Bat", "cat", "Aakash", "Rahul", "Ankit","MADAM"};
+        Optional<List<String>> first = Arrays.stream(sbc).collect(Collectors.groupingBy(
+                word -> IntStream.range(0, word.length()/2).allMatch(i -> word.charAt(i) == word.charAt(word.length() - i - 1)),
+                Collectors.toList()
+        )).entrySet().stream().filter(ele -> ele.getKey() == true).map(Map.Entry::getValue).findFirst();
+        System.out.print(first.get());
+
+    }
+
+    //Find top 3 longest strings.
+    public static void testString7() {
+        String[] sbc = {"Ramu", "Bat", "cat", "Aakash", "Rahul", "Ankit","MADAM"};
+
+        Map<Integer, List<String>> collect = Arrays.stream(sbc).collect(Collectors.groupingBy(String::length));
+
+        System.out.print(collect);
+    }
+
+    //append count instead of T OPEN1EX2
+    public static void testString8() {
+        String input = "OPENTEXT";
+        int count = 0;
+        String output = "";
+        for (char ch : input.toCharArray()) {
+            if (ch != 'T')
+                output += ch;
+            else if (ch == 'T') {
+                count++;
+                output += count;
+            }
+        }
+
+        System.out.print(output);
+    }
+
+    public static void testString8Stream() {
+        String input = "OPENTEXT";
+        AtomicInteger atomicInteger = new AtomicInteger(0);
+        String reduce = IntStream.range(0, input.length()).mapToObj(i ->
+        {
+            char ch = input.charAt(i);
+            if (ch == 'T')
+                return String.valueOf(atomicInteger.incrementAndGet());
+            return String.valueOf(ch);
+        }).reduce("", String::concat);
+        System.out.print(reduce);
+    }
 
 
 }
